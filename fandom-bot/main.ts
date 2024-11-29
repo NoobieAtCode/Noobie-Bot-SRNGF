@@ -152,6 +152,9 @@ const update = async (devdata: Array<idevdata>, icomp: tcompdata) => {
       }).catch((err)=>{
         if (err.code) {
           console.log(err.code)
+          if (err.code === "fileexists-no-change") {
+            console.log("No change? (try .refresh)");
+          }
         }
       });
     }
