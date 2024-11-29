@@ -177,6 +177,9 @@ const help = () => {
   .help: Lists the commands/their functions\n
   .exit: Exits the program\n
   .devi: Runs Devi (Developer Image Updater)\n
+  .iwrite: Gets the images and puts them into 'devicomp'\n
+  .fclear: Deletes all the files in 'devicomp'\n
+  .refresh: Refreshes the images in 'devicomp'
   `);
   prompt("Press Enter to continue");
 };
