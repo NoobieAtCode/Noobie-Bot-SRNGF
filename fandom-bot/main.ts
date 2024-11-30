@@ -108,8 +108,8 @@ const iwrite = async (devdata: Array<idevdata>, dirname: string) => {
     //console.log(k.file)
     //console.log(c)
     //console.log(r.data)
-    Deno.writeFile(`./${dirname}/url-` + k.name + ".png", Buffer.from(c));
-    bot.download(
+    await Deno.writeFile(`./${dirname}/url-` + k.name + ".png", Buffer.from(c));
+    await bot.download(
       `${k.file}`,
       "./devicomp/db-" + k.name.replace("File:", "") + ".png",
     );
