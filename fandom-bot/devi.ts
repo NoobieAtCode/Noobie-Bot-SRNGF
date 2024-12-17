@@ -187,7 +187,12 @@ const main = async () => {
     console.log("No Files to Update");
     return;
   }
-  await iwrite(devdata, "devicomp");
+  let f = []
+  for await (let r of Deno.readDir("./devicomp")) {
+    //console.log(r)
+    f.push(r)
+  }
+  if (f.length !== 0) await iwrite(devdata, "devicomp");
   console.log("The following images need to be updated: ");
   for (let k in icompd) {
     if (icompd[k]) console.log(k);
@@ -203,6 +208,7 @@ const main = async () => {
     return;
   }
   console.log("Updating db files");
+  fclear()
   await iwrite(devdata, "devicomp").finally(() => {
     console.log("Update Complete");
   });
@@ -241,6 +247,8 @@ const CLI = async () => {
         fclear();
         await iwrite(devdata, "devicomp");
         continue;
+      case ".test":
+        continue
       default:
         console.log(
           `Command of ${input} not recognized.\nRun .help for a list of commands`,
