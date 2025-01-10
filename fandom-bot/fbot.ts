@@ -1,7 +1,3 @@
-/**
- * EOL as of 11/27/2024 7:23 PM PST
- */
-
 import { Mwn } from "npm:mwn";
 import process from "node:process";
 import dotenv from "npm:dotenv";
@@ -117,6 +113,10 @@ const checkuserwl = (username: string | boolean | number) => {
   }
   return result;
 };
+
+const wikistrsan = (strsan: string) => {
+  return strsan.replaceAll(" ", "_")
+}
 
 class Tests {
   test1_1: number;
@@ -332,30 +332,35 @@ const nbot: bot = () => {
       let sregexstr = /s+o+n+z+i+l+(i[a-h,j-z]*)?/i;
       let sdect = sregexstr.test(revision.username as string);
       if (sdect) {
-        bot.rollback(revision.title as string, revision.username as string);
-        block(revision.user as string, "1 day", "Suspected Sonzili Sockpuppet");
-        dupecheck = revision.revid as number;
-        logdupecheck = newlogchange.id as number;
-        return;
-      }
-      if (revision.title !== newlogchange.title && ct.flag1 && !checkrevuser) {
-        bot.rollback(revision.title as string, revision.user as string);
-        block(
-          revision.username as string,
-          "1 day",
-          "Suspected vandalism: Mass Blanking/Spam",
-        );
+        //bot.rollback(revision.title as string, revision.username as string);
+        //block(revision.user as string, "1 day", "Suspected Sonzili Sockpuppet");
         awebhookreport({
-          "Blocked User: ": revision.user,
-          "Reason:": "Suspected mass content removal",
-          "Byte removal %: ": ct.byteDiffPercent(revision.byteDiff, prbyteDiff),
+          "Suspicious Edit": "",
+          "User: ": revision.user,
+          "Reason:": "Suspected Sonzili Sockpuppet",
+          "Byte change %: ": ct.byteDiffPercent(revision.byteDiff, prbyteDiff),
           "Revision: ": revision.id,
+          "Link: ": `<https://sol-rng.fandom.com/wiki/${wikistrsan(revision.title as string)}>`
         });
         dupecheck = revision.revid as number;
         logdupecheck = newlogchange.id as number;
         return;
       }
-
+      if (revision.title !== newlogchange.title && ct.flag1 && !checkrevuser) {
+        //bot.rollback(revision.title as string, revision.user as string);
+        //block(revision.username as string,"1 day","Suspected vandalism: Mass Blanking/Spam",);
+        awebhookreport({
+          "# Suspicious Edit": "",
+          "### User: ": revision.user,
+          "### Reason:": "Suspected mass content removal",
+          "### Byte change %: ": ct.byteDiffPercent(revision.byteDiff, prbyteDiff),
+          "### Revision: ": revision.revid,
+          "### Link: ": `<https://sol-rng.fandom.com/wiki/${wikistrsan(revision.title as string)}>`
+        });
+        dupecheck = revision.revid as number;
+        logdupecheck = newlogchange.id as number;
+        return;
+      }
       console.log(ct.flag1);
       console.log(revision.title);
       console.log("Revision by: ", revision.user);

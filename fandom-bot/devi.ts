@@ -1,7 +1,6 @@
 // deno-lint-ignore-file prefer-const
 import { Mwn } from "npm:mwn";
 import process from "node:process";
-import dotenv from "npm:dotenv";
 import { Buffer } from "node:buffer";
 import axios from "npm:axios@1.7.7";
 import { diff } from "npm:@bokuweb/image-diff-wasm";
@@ -12,7 +11,7 @@ import chpr from "node:child_process";
 
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const __rootdir = "C:\\Users\\dabak\\Desktop\\Noobie-Bot-SRNGF";
+const __rootdir = process.env.DEVI_ROOT_DIR as string;
 
 type tcompdata = {
   [key: string]: boolean;
@@ -23,8 +22,6 @@ interface idevdata {
   file: string;
   userid: string;
 }
-
-dotenv.config();
 
 const bot = await Mwn.init({
   apiUrl: "https://sol-rng.fandom.com/api.php",
@@ -176,23 +173,24 @@ const help = () => {
   .devi: Runs Devi (Developer Image Updater)\n
   .iwrite: Gets the images and puts them into 'devicomp'\n
   .fclear: Deletes all the files in 'devicomp'\n
-  .refresh: Refreshes the images in 'devicomp'
+  .refresh: Refreshes the images in 'devicomp'\n
   `);
   prompt("Press Enter to continue");
 };
 
 const main = async () => {
-  let icompd = await icomp(devdata);
-  if (Object.values(icompd).every((v) => v === false)) {
-    console.log("No Files to Update");
-    return;
-  }
   let f = []
   for await (let r of Deno.readDir("./devicomp")) {
     //console.log(r)
     f.push(r)
   }
+  console.log(f.length)
   if (f.length !== 0) await iwrite(devdata, "devicomp");
+  let icompd = await icomp(devdata);
+  if (Object.values(icompd).every((v) => v === false)) {
+    console.log("No Files to Update");
+    return;
+  }
   console.log("The following images need to be updated: ");
   for (let k in icompd) {
     if (icompd[k]) console.log(k);
