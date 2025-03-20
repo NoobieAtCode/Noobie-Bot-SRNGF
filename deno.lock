@@ -8,14 +8,15 @@
     "npm:@bokuweb/image-diff-wasm@*": "0.1.0",
     "npm:@bokuweb/image-diff-wasm@0.1": "0.1.0",
     "npm:@types/node@*": "22.5.4",
+    "npm:axios@*": "1.7.8",
     "npm:axios@1.7.7": "1.7.7",
     "npm:axios@^1.7.8": "1.7.8",
     "npm:bad-words@*": "4.0.0",
     "npm:bad-words@4": "4.0.0",
     "npm:canvas@^2.11.2": "2.11.2",
     "npm:discord.js@^14.16.3": "14.16.3",
-    "npm:dotenv@*": "16.4.5",
-    "npm:dotenv@^16.4.5": "16.4.5",
+    "npm:dotenv@*": "16.4.7",
+    "npm:dotenv@^16.4.7": "16.4.7",
     "npm:fs@^0.0.1-security": "0.0.1-security",
     "npm:lmdb@*": "3.2.0",
     "npm:lmdb@^3.2.0": "3.2.0",
@@ -504,8 +505,8 @@
         "undici"
       ]
     },
-    "dotenv@16.4.5": {
-      "integrity": "sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg=="
+    "dotenv@16.4.7": {
+      "integrity": "sha512-47qPchRCykZC03FhkYAhrvwU4xDBFIj1QPqaarj6mdM/hgUzfPHcpkHJOn3mJAufFeeAxAzeGsr5X0M4k6fLZQ=="
     },
     "emoji-regex@8.0.0": {
       "integrity": "sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A=="
@@ -1093,7 +1094,7 @@
       "npm:bad-words@4",
       "npm:canvas@^2.11.2",
       "npm:discord.js@^14.16.3",
-      "npm:dotenv@^16.4.5",
+      "npm:dotenv@^16.4.7",
       "npm:fs@^0.0.1-security",
       "npm:lmdb@^3.2.0",
       "npm:mwn@^2.0.4",

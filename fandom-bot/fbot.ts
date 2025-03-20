@@ -1,6 +1,5 @@
 import { Mwn } from "npm:mwn";
 import process from "node:process";
-import dotenv from "npm:dotenv";
 // deno-lint-ignore no-unused-vars
 import { awebhookreport } from "../modules/misc.ts";
 import { fetchMostRecentChange } from "../modules/wikiRC.ts";
@@ -8,6 +7,9 @@ import { Filter } from "npm:bad-words";
 import { open } from "npm:lmdb";
 import lmdb from "npm:lmdb";
 import { Buffer } from "node:buffer";
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 const filter = new Filter();
 
@@ -20,8 +22,6 @@ const dbg = open({
   path: "./db/wl_list",
   compression: true,
 });
-
-dotenv.config();
 
 const bot = await Mwn.init({
   apiUrl: "https://sol-rng.fandom.com/api.php",
@@ -396,7 +396,7 @@ const nbot: bot = () => {
       logset.add(cerr);
       Deno.writeFile(
         "./tlogs.txt",
-        Buffer.from(("index.ts:\n" + cerr).toString()),
+        Uint8Array.from(("index.ts:\n" + cerr).split('').map(letter => letter.charCodeAt(0))),
         {
           append: true,
         },

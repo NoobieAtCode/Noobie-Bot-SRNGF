@@ -2,8 +2,6 @@ import { Mwn } from "npm:mwn";
 import process from "node:process";
 import dotenv from "npm:dotenv";
 
-dotenv.config();
-
 const bot = await Mwn.init({
   apiUrl: "https://sol-rng.fandom.com/api.php",
   username: `NoobieAtCode's Bot@Miscellaneous`,

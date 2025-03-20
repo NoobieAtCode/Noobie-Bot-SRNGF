@@ -7,11 +7,14 @@ import { diff } from "npm:@bokuweb/image-diff-wasm";
 import url from "node:url";
 import path from "node:path";
 import chpr from "node:child_process";
+import dotenv from 'dotenv'
 //import lmdb from "npm:lmdb";
 
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const __rootdir = process.env.DEVI_ROOT_DIR as string;
+
+dotenv.config()
 
 type tcompdata = {
   [key: string]: boolean;
@@ -100,7 +103,7 @@ const iwrite = async (devdata: Array<idevdata>, dirname: string) => {
     //console.log(k.file)
     //console.log(c)
     //console.log(r.data)
-    await Deno.writeFile(`./${dirname}/url-` + k.name + ".png", Buffer.from(c));
+    await Deno.writeFile(`./${dirname}/url-` + k.name + ".png", new Uint8Array(c));
     await bot.download(
       `${k.file}`,
       "./devicomp/db-" + k.name.replace("File:", "") + ".png",
@@ -184,7 +187,6 @@ const main = async () => {
     //console.log(r)
     f.push(r)
   }
-  console.log(f.length)
   if (f.length !== 0) await iwrite(devdata, "devicomp");
   let icompd = await icomp(devdata);
   if (Object.values(icompd).every((v) => v === false)) {
