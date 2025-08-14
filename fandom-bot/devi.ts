@@ -10,11 +10,12 @@ import chpr from "node:child_process";
 import dotenv from 'dotenv'
 //import lmdb from "npm:lmdb";
 
+dotenv.config()
+
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const __rootdir = process.env.DEVI_ROOT_DIR as string;
 
-dotenv.config()
 
 type tcompdata = {
   [key: string]: boolean;
@@ -56,7 +57,9 @@ let devdata = [
   { name: "hschu_hschu", file: "File:Hschu_hschu.png", userid: "1971714479" },
   { name: "dum_k1tten", file: "File:Nova.png", userid: "3929062638" },
   { name: "Gold_Octopus", file: "File:Gold_octopus.png", userid: "525498778" },
-  { name: "dalUL7", file: "File:dalUL7.png", userid: "1913463034" },
+  { name: "L_02L", file: "File:L_02L.png", userid: "934375856" },
+  { name: "ProgramArtist", file: "File:ProgramArtist.png", userid: "3620970055" },
+  { name: "Rex_ye", file: "File:Rex_ye.png", userid: "2036136520" },
 ];
 //Unused Code
 /*
@@ -146,9 +149,7 @@ const update = async (devdata: Array<idevdata>, icomp: tcompdata) => {
       if (v !== k.name) continue;
       if (!icomp[v]) continue;
       console.log(`Updated: ${v}`);
-      await bot.upload(`./devicomp/url-${k.name}.png`, k.file, "Update", {
-        ignorewarnings: true,
-      }).catch((err) => {
+      await bot.upload(`./devicomp/url-${k.name}.png`, k.file, "Update").catch((err) => {
         if (err.code) {
           console.log(err.code);
           if (err.code === "fileexists-no-change") {
@@ -214,6 +215,33 @@ const main = async () => {
   });
 };
 
+const fupdate = async () => {
+  let icompd = await icomp(devdata);
+  if (Object.values(icompd).every((v) => v === false)) {
+    console.log("No Files to Update");
+    return;
+  }
+  console.log("The following images need to be updated: ");
+  for (let k in icompd) {
+    if (icompd[k]) console.log(k);
+    if (!icompd[k]) continue;
+  }
+  let confupd = prompt("Confirm to update: [Y/y] -> yes | [N/n] -> no:");
+  if (confupd?.toLocaleLowerCase() === "y") await update(devdata, icompd);
+  if (confupd?.toLocaleLowerCase() === "n") return;
+  if (
+    confupd?.toLocaleLowerCase() !== "n" && confupd?.toLocaleLowerCase() !== "y"
+  ) {
+    console.log("Invalid Input");
+    return;
+  }
+  console.log("Updating db files");
+  fclear()
+  await iwrite(devdata, "devicomp").finally(() => {
+    console.log("Update Complete");
+  });
+}
+
 const CLI = async () => {
   while (true) {
     let input = prompt("Enter: ");
@@ -237,6 +265,9 @@ const CLI = async () => {
           ) await iwrite(devdata, "devicomp");
         });
         continue;
+      case ".fupdate":
+        await fupdate();
+        continue
       case ".iwrite":
         await iwrite(devdata, "devicomp");
         continue;
@@ -248,6 +279,9 @@ const CLI = async () => {
         await iwrite(devdata, "devicomp");
         continue;
       case ".test":
+        await bot.upload(`./devicomp/url-54_xyz.png`, "File:54_xyz.png", "Update", {
+          ignorewarnings: true
+        })
         continue
       default:
         console.log(
