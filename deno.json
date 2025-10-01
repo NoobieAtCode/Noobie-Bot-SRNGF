@@ -2,7 +2,7 @@
   "tasks": {
     "dev": "deno run --watch main.ts",
     "bot": "deno run --allow-net --allow-env -R --allow-write --allow-run --allow-ffi fandom-bot/main.ts",
-    "fbot": "deno run --watch --allow-net --allow-env -R --allow-write --allow-run --allow-ffi fandom-bot/fbot.ts",
+    "fbot": "deno run --watch --allow-net --allow-env -R --allow-write --allow-run --allow-ffi --allow-sys fandom-bot/fbot.ts",
     "main": "deno run --allow-net --allow-env --allow-read --allow-write --allow-run main.ts",
     "mwall": "deno run --allow-net --allow-env --allow-read --allow-write --allow-run fandom-bot/mwall.ts",
     "test": "deno run --allow-net --allow-env --allow-read --allow-write --allow-run fandom-bot/test.ts",
@@ -19,7 +19,6 @@
     "@std/fs": "jsr:@std/fs@^1.0.19",
     "axios": "npm:axios@^1.11.0",
     "axios-cookiejar-support": "npm:axios-cookiejar-support@^6.0.4",
-    "bad-words": "npm:bad-words@^4.0.0",
     "canvas": "npm:canvas@^2.11.2",
     "discord.js": "npm:discord.js@^14.21.0",
     "dotenv": "npm:dotenv@^16.6.1",

@@ -4,15 +4,13 @@
 //Posts (replies) api: https://sol-rng.fandom.com/wikia.php?controller=DiscussionPost&method=getPosts&limit=1&viewableOnly=true&format=json
 
 import { awebhookreport } from "../modules/misc.ts";
-import { Filter } from "npm:bad-words";
+import { localList } from "../exscripts/lang.ts";
 import axios from "npm:axios@1.7.7";
 import type { r_c } from '../modules/types.ts'
 
-function nothing() {
+function nothing() {}
 
-}
-
-const filter = new Filter()
+const urlbase = "https://sol-rng.fandom.com/f"
 
 const tapi = "https://sol-rng.fandom.com/wikia.php?controller=DiscussionThread&method=getThreads&limit=1&viewableOnly=true&format=json"
 
@@ -37,7 +35,8 @@ const getThreadContent = async () => {
         username: mdata.createdBy.name,
         threadid: mdata.id,
         threadcontent: mdata.rawContent,
-        threadtitle: mdata.title
+        threadtitle: mdata.title,
+        postlink: `${urlbase}/${mdata.id}`
     }
     return r
 }
@@ -52,21 +51,15 @@ const getPostContent = async () => {
     if (req?.data?._embedded["doc:posts"] === undefined) throw "req.data._embedded.threads undef"
     if (req?.data?._embedded["doc:posts"][0] === undefined || req?.data?._embedded["doc:posts"][1] === undefined || req?.data?._embedded["doc:posts"][2] === undefined || req?.data?._embedded["doc:posts"][3] === undefined || req?.data?._embedded["doc:posts"][4] === undefined) throw "req.data._embedded.threads[0-4] undef"
     const mdata = req?.data?._embedded["doc:posts"]
-    let r = {
-        userid: "",
-        username: "",
-        threadid: "",
-        threadcontent: "",
-        threadtitle: ""
-    }
     let c: any = []
-    for (let i of mdata) {
+    for (const i of mdata) {
         c.push({
         userid: i.createdBy.id,
         username: i.createdBy.name,
         threadid: i.threadId,
         postid: i.id,
         postcontent: i.rawContent,
+        postlink: `${urlbase}/p/${i.threadId}/r/${i.id}`
         })
     }
     return c.reverse()
@@ -75,14 +68,15 @@ const getPostContent = async () => {
 const fil = async (content: string) => {
     if (content === undefined) throw "content undef"
     let f1 =false, f2 = false
-    if (filter.isProfane(content)) {f1 = true}
+    for (let i of localList) {
+        if ((content.split("").includes(i))) {f1=true}
+    }
     if (/(kms)|(kys)|(kill your self)|(kill my self)|(kill myself)|(kill you're self)/ig.test(content)) {f2 = true}
 
     return { isProfaneSlur: f1, isDeathThreat: f2 }
 }
 
 let gpcinstancesrecorded: any = []
-
 setInterval(async ()=>{
     try {
         let gpc = await getPostContent()
@@ -104,12 +98,27 @@ setInterval(async ()=>{
             }
         }
         //gpc content handling
-        for (let i in gpc) {
-            console.log(gpc[i])
+        for (const i in gpc) {
+            console.log(gpc[i].postlink, ": ", (await fil(gpc[i].postcontent)).isProfaneSlur)
+            if ((await fil(gpc[i].postcontent)).isProfaneSlur || (await fil(gpc[i].postcontent)).isDeathThreat) {
+                console.log(gpc[i])
+                await awebhookreport({
+                    "# Flagged Post(Reply)": "",
+                    "### User": gpc[i].username,
+                    "### Link": gpc[i].postlink
+                });
+            }
+            //console.log(gpc[i])
         }
 
         //if (gpcinstancesrecorded.length > 5) gpcinstancesrecorded.shift()
         //gpc handling end
+
+        //gtc handling start
+        /**
+         * 1 thread per gtc instance
+         */
+        //gtc handling end
     } catch (err) {
         console.log(err)
     }

@@ -52,14 +52,16 @@ let devdata = [
   { name: "53_Axis", file: "File:53_axis.png", userid: "419860256" },
   { name: "ep1k_solg", file: "File:Epik_solg.png", userid: "1390696522" },
   { name: "xcvbwer123", file: "File:Xcvbwer.png", userid: "361208413" },
-  { name: "Rik0nya", file: "File:Rik0nya.png", userid: "1343308718" },
+  //{ name: "Rik0nya", file: "File:Rik0nya.png", userid: "1343308718" },
   { name: "2word7", file: "File:Word.png", userid: "2912484262" },
   { name: "hschu_hschu", file: "File:Hschu_hschu.png", userid: "1971714479" },
-  { name: "dum_k1tten", file: "File:Nova.png", userid: "3929062638" },
+  //{ name: "dum_k1tten", file: "File:Nova.png", userid: "3929062638" },
   { name: "Gold_Octopus", file: "File:Gold_octopus.png", userid: "525498778" },
   { name: "L_02L", file: "File:L_02L.png", userid: "934375856" },
   { name: "ProgramArtist", file: "File:ProgramArtist.png", userid: "3620970055" },
   { name: "Rex_ye", file: "File:Rex_ye.png", userid: "2036136520" },
+  { name: "YGvw_Sol", file: "File:YGvw_Sol.png", userid: "3746869261" },
+  { name: "rocca108", file: "File:rocca108.png", userid: "317330352" },
 ];
 //Unused Code
 /*
@@ -118,14 +120,18 @@ const icomp = async (devdata: Array<idevdata>) => {
   let compdata: tcompdata = {
     "54_xyz": false,
     "53_Axis": false,
-    "Rik0nya": false,
+    //"Rik0nya": false,
     "ep1k_solg": false,
     "xcvbwer123": false,
-    "dum_k1tten": false,
+    //"dum_k1tten": false,
     "2word7": false,
     "Gold_Octopus": false,
-    "dalUL7": false,
     "hschu_hschu": false,
+    "L_02L": false,
+    "ProgramArtist": false,
+    "Rex_ye": false,
+    "YGvw_Sol": false,
+    "rocca108": false,
   };
 
   for (let k of devdata) {
